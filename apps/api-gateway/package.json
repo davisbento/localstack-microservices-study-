@@ -2,6 +2,9 @@
   "name": "@localstack-microservices/api-gateway",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "start": "ts-node src/main.ts"
+  },
   "nx": {
     "targets": {
       "serve": {

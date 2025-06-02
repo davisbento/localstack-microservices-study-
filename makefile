@@ -1,6 +1,15 @@
 invoke-user-service:
 	npm run start -w @localstack-microservices/user-service
 
+invoke-api-gateway:
+	npm run start -w @localstack-microservices/api-gateway
+
+get-api-gateway-home:
+	curl http://localhost:3000
+
+post-user-to-api-gateway:
+	curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d '{ "name": "John Doe" }'
+
 build-shared:
 	npm run build -w @localstack-microservices/shared
 
