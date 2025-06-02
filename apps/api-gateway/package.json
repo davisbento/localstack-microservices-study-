@@ -1,5 +1,5 @@
 {
-  "name": "@localstack-microservices/api",
+  "name": "@localstack-microservices/api-gateway",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -12,15 +12,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@localstack-microservices/api:build",
+          "buildTarget": "@localstack-microservices/api-gateway:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@localstack-microservices/api:build:development"
+            "buildTarget": "@localstack-microservices/api-gateway:build:development"
           },
           "production": {
-            "buildTarget": "@localstack-microservices/api:build:production"
+            "buildTarget": "@localstack-microservices/api-gateway:build:production"
           }
         }
       }
