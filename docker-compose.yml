@@ -1,6 +1,32 @@
 version: '3.8'
 
 services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: apps/api-gateway/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - PORT=3000
+      - USER_SERVICE_HOST=user-service
+      - USER_SERVICE_PORT=3001
+    depends_on:
+      - user-service
+    networks:
+      - microservices-network
+
+  user-service:
+    build:
+      context: .
+      dockerfile: apps/user-service/Dockerfile
+    ports:
+      - '3001:3001'
+    environment:
+      - PORT=3001
+    networks:
+      - microservices-network
+
   localstack:
     container_name: localstack
     image: localstack/localstack:latest
@@ -21,5 +47,7 @@ services:
       - './localstack:/docker-entrypoint-initaws.d' # init scripts
 
 networks:
+  microservices-network:
+    driver: bridge
   default:
     name: localstack-network

@@ -5,6 +5,9 @@
   "scripts": {
     "start": "ts-node src/main.ts"
   },
+  "dependencies": {
+    "ts-node": "^10.9.2"
+  },
   "nx": {
     "targets": {
       "serve": {

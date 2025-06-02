@@ -1,47 +1,43 @@
-import {
-  DynamoDBClient,
-  GetItemCommand,
-  PutItemCommand,
-} from '@aws-sdk/client-dynamodb';
-import { randomUUID } from 'crypto';
+import { json } from 'body-parser';
+import express from 'express';
 
-const client = new DynamoDBClient({
-  region: 'us-east-1',
-  endpoint: 'http://localhost:4566',
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(json());
+
+// User routes
+app.post('/users', (req: any, res: any) => {
+  try {
+    const userData = req.body;
+
+    // Validate user data
+    if (!userData.name) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+
+    console.log('Creating user:', userData);
+
+    // In a real app, you would save to a database here
+    // For now, we'll just respond with success
+    return res.status(201).json({
+      message: 'User created successfully',
+      user: userData,
+      service: 'user-service',
+    });
+  } catch (error) {
+    console.error('Error creating user:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
-const tableName = 'User';
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'UP', service: 'user-service' });
+});
 
-const insertUser = async () => {
-  // Generate a random ID using UUID
-  const userId = randomUUID();
-
-  const command = new PutItemCommand({
-    TableName: tableName,
-    Item: {
-      id: { S: userId },
-      name: { S: 'John Doe' },
-      email: { S: 'john.doe@example.com' },
-      createdAt: { S: new Date().toISOString() },
-    },
-  });
-
-  try {
-    const result = await client.send(command);
-    console.log('User inserted successfully:', result);
-    console.log('User ID:', userId);
-
-    const getCommand = new GetItemCommand({
-      TableName: tableName,
-      Key: { id: { S: userId } },
-    });
-
-    const getResult = await client.send(getCommand);
-    console.log('User retrieved successfully:', getResult);
-  } catch (error) {
-    console.error('Error inserting user:', error);
-  }
-};
-
-// Run the insert command
-insertUser();
+// Start the server
+app.listen(PORT, () => {
+  console.log(`User service running on port ${PORT}`);
+});
