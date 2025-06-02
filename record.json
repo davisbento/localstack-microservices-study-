@@ -1,0 +1,14 @@
+{
+  "id": {
+    "S": "e4315676-5fbd-43de-966a-9d69c2663d6d"
+  },
+  "name": {
+    "S": "John Doe"
+  },
+  "email": {
+    "S": "john.doe@example.com"
+  },
+  "createdAt": {
+    "S": "2025-05-30T13:14:54.511Z"
+  }
+}

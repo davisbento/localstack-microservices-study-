@@ -1,0 +1,17 @@
+{
+  "Records": [
+    {
+      "eventName": "INSERT",
+      "dynamodb": {
+        "NewImage": {
+          "id": {
+            "S": "123"
+          },
+          "name": {
+            "S": "Test"
+          }
+        }
+      }
+    }
+  ]
+}

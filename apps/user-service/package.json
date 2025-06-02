@@ -1,0 +1,41 @@
+{
+  "name": "@localstack-microservices/user-service",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/main.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.817.0",
+    "@localstack-microservices/shared": "*"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "nx": {
+    "targets": {
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@localstack-microservices/user-service:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@localstack-microservices/user-service:build:development"
+          },
+          "production": {
+            "buildTarget": "@localstack-microservices/user-service:build:production"
+          }
+        }
+      }
+    }
+  }
+}
