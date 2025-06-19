@@ -6,6 +6,8 @@ const http = require('http');
 
 const server = http.createServer(
   (req: IncomingMessage, res: ServerResponse) => {
+    console.log('API Gateway received request:', req.url);
+
     // Set CORS headers to allow all origins
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');

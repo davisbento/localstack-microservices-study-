@@ -8,9 +8,13 @@ services:
     ports:
       - '3000:3000'
     environment:
+      - NODE_ENV=development
       - PORT=3000
       - USER_SERVICE_HOST=user-service
       - USER_SERVICE_PORT=3001
+    volumes:
+      - ./apps/api-gateway:/app/apps/api-gateway
+      - /app/apps/api-gateway/node_modules
     depends_on:
       - user-service
     networks:
@@ -23,7 +27,11 @@ services:
     ports:
       - '3001:3001'
     environment:
+      - NODE_ENV=development
       - PORT=3001
+    volumes:
+      - ./apps/user-service:/app/apps/user-service
+      - /app/apps/user-service/node_modules
     networks:
       - microservices-network
 
@@ -34,17 +42,16 @@ services:
       - '4566:4566' # LocalStack Gateway
       - '4510-4559:4510-4559' # external services port range
     environment:
-      - DEBUG=1
+      - DEBUG=0
       - DOCKER_HOST=unix:///var/run/docker.sock
       - LAMBDA_EXECUTOR=docker
       - PERSISTENCE=1
       - AWS_DEFAULT_REGION=us-east-1
-      - EDGE_PORT=4566
       - SERVICES=apigateway,lambda,dynamodb,s3,sqs,sns,ses,cloudfront
+      - ACTIVATE_PRO=0
     volumes:
-      - '${TMPDIR:-/tmp}/localstack:/tmp/localstack'
+      - '${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack'
       - '/var/run/docker.sock:/var/run/docker.sock'
-      - './localstack:/docker-entrypoint-initaws.d' # init scripts
 
 networks:
   microservices-network:

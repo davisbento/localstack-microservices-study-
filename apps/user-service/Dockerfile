@@ -2,17 +2,17 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package.json files
+# Copy package files first for better caching
 COPY package*.json ./
 COPY apps/user-service/package*.json ./apps/user-service/
 
-# Install dependencies
+# Install dependencies from root (workspace setup)
 RUN npm install
 
-# Copy source files
-COPY apps/user-service ./apps/user-service
+# Copy the rest of the source code
+COPY . .
 
-# Set working directory to service folder
+# Set working directory to the service
 WORKDIR /app/apps/user-service
 
 # Expose the port

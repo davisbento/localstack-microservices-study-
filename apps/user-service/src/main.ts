@@ -1,5 +1,6 @@
 import { json } from 'body-parser';
 import express from 'express';
+import { insertUser } from './infra/dynamodb';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -8,7 +9,7 @@ const PORT = process.env.PORT || 3001;
 app.use(json());
 
 // User routes
-app.post('/users', (req: any, res: any) => {
+app.post('/users', async (req: any, res: any) => {
   try {
     const userData = req.body;
 
@@ -18,6 +19,8 @@ app.post('/users', (req: any, res: any) => {
     }
 
     console.log('Creating user:', userData);
+
+    await insertUser({ name: userData.name });
 
     // In a real app, you would save to a database here
     // For now, we'll just respond with success
